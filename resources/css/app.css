@@ -1,0 +1,82 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+    .component-header {
+        @apply max-w-full mx-auto py-6 px-4 sm:px-4 lg:px-8;
+    }
+    .component-main {
+        @apply object-center mx-auto py-6 px-4 bg-white sm:rounded-lg max-w-full;
+    }
+    .chart-box {
+        @apply sm:w-1/2 p-3;
+    }
+    .chart-border {
+        @apply p-3 border-2 rounded-2xl drop-shadow-md;
+    }
+    .rs-picker-popup {
+        @apply scale-75;
+    }
+    .component-table-parent {
+        @apply overflow-auto shadow-md sm:rounded-lg mt-2;
+    }
+    .component-table {
+        @apply w-full text-sm text-left text-gray-500;
+    }
+    .component-thead {
+        @apply text-xs text-gray-700 bg-gray-50;
+    }
+    .component-thead-th {
+        @apply py-3 px-6;
+    }
+    .component-th {
+        @apply text-sm font-medium text-gray-900 px-6 py-4 text-left;
+    }
+    .component-td {
+        @apply px-6 py-4 text-black;
+    }
+    .component-tbody-tr {
+        @apply bg-white border-b hover:bg-blue-100;
+    }
+    .component-table-dropdown-toggle {
+        @apply inline-flex items-center p-2 text-sm font-medium text-center text-gray-900 bg-transparent rounded-lg hover:bg-gray-300 focus:ring-4 focus:outline-none focus:ring-gray-50;
+    }
+    .component-input-radio-parant {
+        @apply flex items-center mb-1;
+    }
+    .progress-parent {
+        @apply relative bg-neutral-100 w-1/2 border-r rounded-[50px] ml-1.5 h-8;
+    }
+    .progress-child {
+        @apply h-full rounded-[40px] text-right flex flex-row-reverse;
+    }
+    .progress-child.processing{
+        @apply bg-[#8EF1FF];
+    }
+    .progress-child.processed{
+        @apply bg-clip-text text-transparent;
+        background: linear-gradient(to right,
+            red 0%,
+            orange 10.29%,
+            yellow 28.57%,
+            green 42.86%,
+            cyan 57.14%,
+            blue 71.43%,
+            violet 85.71%,
+            red 100%
+        );
+        animation: 2s moveGradient linear infinite;
+        background-size: 200% auto;
+        display: inline-block;
+    }
+    .progress-text {
+        @apply text-2xl text-black font-black ml-3;
+    }
+    .progress-image {
+        @apply absolute block top-[-10px] ml-[-24px] w-12 h-12
+    }
+    @keyframes moveGradient {
+        100% { background-position: -200%; }
+    }
+}

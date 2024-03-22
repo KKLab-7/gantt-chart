@@ -1,0 +1,12 @@
+.rs-picker-popup {
+    z-index: 51 !important;
+    transform: scale(.75);
+    transform-origin: left top;
+}
+
+._2B2zv, ._3lLk3 {
+    overflow: visible !important;
+}
+._34SS0 {
+    max-height: 40px;
+}

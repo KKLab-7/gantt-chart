@@ -1,0 +1,10 @@
+.progress-child {
+    height: '100%';
+    border-radius: '40px';
+    text-align: 'right';
+    display: 'flex';
+}
+
+.progress-child .processing {
+    background: #8EF1FF;
+}
