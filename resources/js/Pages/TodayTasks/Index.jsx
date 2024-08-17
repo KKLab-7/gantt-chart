@@ -101,7 +101,7 @@ export default function Index(props) {
                     {
                         // data.tables.length > 0 ?
                         data.tables.length > 0 ?
-                            <Table>
+                            <Table styles={"overflow: visible !important;"}>
                                 <Thead
                                     items={tableHeadItems}
                                 />
@@ -120,6 +120,7 @@ export default function Index(props) {
                                                 </Td>
                                                 <Td>
                                                     <Select
+                                                        className={'relative z-1000'}
                                                         name={'task_progress_' + task.id}
                                                         options={progressOptions}
                                                         styles={customStyles}

@@ -19,10 +19,10 @@
         @apply scale-75;
     }
     .component-table-parent {
-        @apply overflow-auto shadow-md sm:rounded-lg mt-2;
+        @apply shadow-md sm:rounded-lg mt-2;
     }
     .component-table {
-        @apply w-full text-sm text-left text-gray-500;
+        @apply overflow-auto w-full text-sm text-left text-gray-500;
     }
     .component-thead {
         @apply text-xs text-gray-700 bg-gray-50;

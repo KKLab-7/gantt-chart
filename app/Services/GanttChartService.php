@@ -133,6 +133,7 @@ class GanttChartService
      */
     public function calculateTodayTaskProgress(Collection $tasks): int
     {
+        if($tasks->isEmpty()) return 0;
         $totalTime = 0;
         $totalProgress = 0;
         foreach ($tasks as $task) {
