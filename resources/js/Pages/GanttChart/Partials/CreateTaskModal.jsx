@@ -105,7 +105,7 @@ export default function CreateTaskModal({ isModalFlg, setIsModalFlg, programUuid
     }
 
     const createProgram = () => {
-        post(route('gantt.chart.program.create', { programUuid: programUuid }),  {
+        post(route('gantt.chart.program.createProject', { programUuid: programUuid }),  {
             onSuccess: (e) => {
                 console.log(e);
                 setIsModalFlg(false);

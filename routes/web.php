@@ -6,6 +6,7 @@ use App\Http\Controllers\GanttChartController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TodayTaskController;
 use Illuminate\Foundation\Application;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -21,12 +22,13 @@ use Inertia\Inertia;
 */
 
 Route::get('/', function () {
-    return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]);
+    // return Inertia::render('Welcome', [
+    //     'canLogin' => Route::has('login'),
+    //     'canRegister' => Route::has('register'),
+    //     'laravelVersion' => Application::VERSION,
+    //     'phpVersion' => PHP_VERSION,
+    // ]);
+    return Redirect::route('dashboard');
 });
 
 Route::get('/dashboard', function () {
@@ -48,7 +50,7 @@ Route::middleware('auth')->group(function () {
         Route::prefix('program/{programUuid}')->name('program.')->group(function () {
             Route::delete('/', [GanttChartController::class, 'delete'])->name('delete');
             Route::get('/', [GanttChartController::class, 'show'])->name('show');
-            Route::post('/', [GanttChartController::class, 'deleteProgram'])->name('create');
+            Route::post('/', [GanttChartController::class, 'createProject'])->name('createProject');
             Route::prefix('project/{projectUuid}')->name('project.')->group(function () {
                 Route::delete('/', [GanttChartController::class, 'deleteProject'])->name('delete');
                 Route::prefix('task/{taskUuid}')->name('task.')->group(function () {
