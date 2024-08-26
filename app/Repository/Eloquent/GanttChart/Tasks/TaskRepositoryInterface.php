@@ -20,7 +20,4 @@ interface TaskRepositoryInterface
 
     public function updateTask(string $taskUuid, array $data): Task;
 
-    public function deleteTask(): Task;
-
-    public function calculateTasksProgress() : int;
 }

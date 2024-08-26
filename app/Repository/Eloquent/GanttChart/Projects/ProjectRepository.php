@@ -2,6 +2,7 @@
 
 namespace App\Repository\Eloquent\GanttChart\Projects;
 
+use App\Models\Program;
 use App\Models\Project;
 use App\Models\Task;
 use App\Models\User;
@@ -74,8 +75,20 @@ class ProjectRepository extends BaseRepository implements ProjectRepositoryInter
     public function calculateProgress(Task $task) : array
     {
         $period = Carbon::parse($task->end)->getTimestamp() - Carbon::parse($task->start)->getTimestamp();
-        $progressTime = $task->progress * $period;
+        $progressTime = $task->progress / 100 * $period;
         return [$period, $progressTime];
+    }
+
+    /**
+     * @param Task $task
+     * @return Program
+     */
+    public function getGroupByYearAndMonth(Program $program): Program
+    {
+        return $program->groupBy(function ($row) {
+
+            return $row->start->format('Y-m');
+        });
     }
 
 }

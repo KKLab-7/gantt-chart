@@ -28,7 +28,7 @@ Route::get('/', function () {
     //     'laravelVersion' => Application::VERSION,
     //     'phpVersion' => PHP_VERSION,
     // ]);
-    return Redirect::route('dashboard');
+    return Redirect::route('today.task.index');
 });
 
 Route::get('/dashboard', function () {

@@ -9,6 +9,7 @@ use App\Repository\Eloquent\BaseRepository;
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
@@ -43,16 +44,6 @@ class TaskRepository extends BaseRepository implements TaskRepositoryInterface
         return $task;
     }
 
-    public function deleteTask(): Task
-    {
-        
-    }
-
-    public function calculateTasksProgress(): int
-    {
-        
-    }
-
     public function getTodayTasks(): Collection
     {
         /** @var \App\Model\User */
@@ -71,5 +62,44 @@ class TaskRepository extends BaseRepository implements TaskRepositoryInterface
                 'programs.uuid as programUuid',
             )
             ->get();
+    }
+
+    public function getProgressOfTasks(string $programUuid): Collection
+    {
+        /** @var \App\Model\User */
+        $user = Auth::user();
+        return Task::join('projects', 'projects.id', '=', 'tasks.project_id')
+        ->join('programs', 'programs.id', '=', 'projects.program_id')
+        ->where('programs.user_id', '=', $user->id)
+            ->where('programs.uuid', $programUuid)
+            ->select(
+                'tasks.*',
+                'programs.uuid as programUuid',
+                'projects.name as project',
+                'projects.uuid as projectUuid',
+                'programs.name as program',
+                'programs.uuid as programUuid',
+            )
+            ->get();
+    }
+
+    public function getTaskCountGroubByYearAndMonth(string $programUuid)
+    {
+        $user = Auth::user();
+        $sql = "
+            SELECT
+                YEAR(tasks.start) as year,
+                MONTH(tasks.start) as month,
+                SUM(CASE WHEN tasks.progress = 0 THEN 1 ELSE 0 END) as zero_progress_count,
+                SUM(CASE WHEN tasks.progress = 100 THEN 1 ELSE 0 END) as full_progress_count,
+                SUM(CASE WHEN tasks.progress > 0 AND tasks.progress < 100 THEN 1 ELSE 0 END) as in_progress_count
+            FROM tasks
+            LEFT JOIN projects ON projects.id = tasks.project_id
+            LEFT JOIN programs ON programs.id = projects.program_id
+            WHERE programs.user_id = '$user->id'
+            AND programs.uuid = '$programUuid'
+            GROUP BY year, month
+        ";
+        return DB::select($sql);
     }
 }

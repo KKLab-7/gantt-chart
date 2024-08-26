@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\ChartApiConrtoller;
 use App\Http\Controllers\Api\GanttChartApiConrtoller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -24,6 +25,12 @@ Route::middleware('auth:sanctum')->name('api.')->group(function () {
                     Route::post('/update', [GanttChartApiConrtoller::class, 'updateTask'])->name('update');
                 });
             });
+        });
+    });
+
+    Route::prefix('/chart')->name('chart.')->group(function () {
+        Route::prefix('/program/{programUuid}')->name('program.')->group(function () {
+            Route::post('/', [ChartApiConrtoller::class, 'getProgramProgress'])->name('rate');
         });
     });
 });
