@@ -18,6 +18,11 @@ Efficient Learning Enabled by Scientifically Timed Review
 | ---- | ---- |
 | ![login](./public/images/login.png) | ![gantt-chart](./public/images/gantt-chart1.png) |
 
+| Un Selected |　Draw Chart |
+| ---- | ---- |
+| ![login](./public/images/un-choose-chart.png) | ![gantt-chart](./public/images/drawing-chart.png) |
+
+
 | Create Program | Create Chart |
 | ---- | ---- |
 | ![create-project](./public/images/create-program.png) | ![create-chart](./public/images/create-chart.png) |
