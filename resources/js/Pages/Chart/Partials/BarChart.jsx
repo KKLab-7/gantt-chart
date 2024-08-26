@@ -19,43 +19,78 @@ ChartJS.register(
     Filler
 );
 
-export default function BarChart({ auth, laravelVersion, phpVersion }) {
+export default function BarChart({ data = [] }) {
     /** グラフデータ */
     const barData = {
         // x 軸のラベル
-        labels: ['1 月', '2 月', '3 月', '4 月', '5 月', '6 月', '7 月'],
+        labels: data['month_and_year_list'],
         datasets: [
             {
-                label: 'Dataset',
-                // データの値
-                data: [65, 59, 80, 81, 56, 55, 40],
-                // グラフの背景色
-                backgroundColor: [
-                    'rgba(255, 99, 132, 0.2)',
-                    'rgba(255, 159, 64, 0.2)',
-                    'rgba(255, 205, 86, 0.2)',
-                    'rgba(75, 192, 192, 0.2)',
-                    'rgba(54, 162, 235, 0.2)',
-                    'rgba(153, 102, 255, 0.2)',
-                    'rgba(201, 203, 207, 0.2)',
-                ],
-                // グラフの枠線の色
-                borderColor: [
-                    'rgb(255, 99, 132)',
-                    'rgb(255, 159, 64)',
-                    'rgb(255, 205, 86)',
-                    'rgb(75, 192, 192)',
-                    'rgb(54, 162, 235)',
-                    'rgb(153, 102, 255)',
-                    'rgb(201, 203, 207)',
-                ],
-                // グラフの枠線の太さ
-                borderWidth: 1,
+                label: 'Not Started',
+                data: data['not_started_list'],  // 各月の未着データ
+                backgroundColor: 'rgba(255, 99, 132, 0.5)', // 色
             },
+            {
+                label: 'In Progress',
+                data: data['in_progress_list'],   // 各月の着手中データ
+                backgroundColor: 'rgba(54, 162, 235, 0.5)', // 色
+            },
+            {
+                label: 'Completed',
+                data: data['full_progress_list'],   // 各月の完了データ
+                backgroundColor: 'rgba(75, 192, 192, 0.5)', // 色
+            }
         ],
     };
 
+    const NoDataPlugin = {
+        id: 'noDataPlugin',
+        beforeDraw(chart) {
+            const { ctx, chartArea, data } = chart;
+
+            if (!data.datasets.length || data.datasets.every(dataset => dataset.data.every(value => value === 0))) {
+                const { width, height } = chartArea;
+                const x = width / 2;
+                const y = height / 2;
+
+                ctx.save();
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.font = '16px Arial';
+                ctx.fillStyle = 'rgba(0, 0, 0, 0.6)';
+                ctx.fillText('Choose Program', x, y);
+                ctx.restore();
+            }
+        }
+    };
+
+    const options = {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            legend: {
+                position: 'top',
+            },
+            title: {
+                display: true,
+                text: '月別の未着手、着手中、完了のデータ',
+            },
+        },
+        scales: {
+            x: {
+                stacked: true,
+            },
+            y: {
+                stacked: true,
+                beginAtZero: true,
+            },
+        },
+        plugins: {
+            noDataPlugin: NoDataPlugin
+        }
+    };
+
     return (
-        <Bar data={barData} />
+        <Bar data={barData} options={options} plugins={[NoDataPlugin]} />
     );
 }

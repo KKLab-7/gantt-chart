@@ -37,6 +37,11 @@ class ProgramRepository extends BaseRepository implements ProgramRepositoryInter
         return $this->model->where('user_id', $userId)->get();
     }
 
+    public function getProgramUuidList(int $userId): array
+    {
+        return $this->model->where('user_id', $userId)->ge;
+    }
+
     public function updateProgramName(string $uuid, string $programName, User $user): Program
     {
         return $this->update($uuid, [

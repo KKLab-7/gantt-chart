@@ -56,7 +56,7 @@ class Program extends Model
                 $totalProgress += $progressTime;
             }
         }
-        return round($totalProgress / $totalTime);;
+        return round($totalProgress / $totalTime * 100);
     }
 
 }

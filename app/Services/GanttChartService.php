@@ -14,21 +14,16 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
-class GanttChartService
+class GanttChartService extends ParentChartsService
 {
-    private ProgramRepository $programRepository;
-    private ProjectRepository $projectRepository;
-    private TaskRepository $taskRepository;
-
     public function __construct(
         ProgramRepository $programRepository,
         ProjectRepository $projectRepository,
         TaskRepository $taskRepository
     ) {
-        $this->programRepository = $programRepository;
-        $this->projectRepository = $projectRepository;
-        $this->taskRepository = $taskRepository;
+        parent::__construct($programRepository, $projectRepository, $taskRepository);
     }
 
     /**
@@ -40,15 +35,6 @@ class GanttChartService
     {
         $user = Auth::user();
         return $this->programRepository->createProgram($programName, $isReview, $user);
-    }
-
-    /**
-     * @param string $programUuid
-     * @return Program
-     */
-    public function getProgramByUuid(string $programUuid) : Program
-    {
-        return $this->programRepository->getProgramByUuid($programUuid);
     }
 
     /**
@@ -119,9 +105,13 @@ class GanttChartService
                 $totalProgress += $progressTime;
             }
             $projectArr = $project->toArray();
-            $projectArr['progress'] = round($totalProgress / $totalTime);
+            $projectArr['progress'] = round($totalProgress / $totalTime * 100);
             $data[] = $projectArr;
             $data = array_merge($data, $tasks->toArray());
+
+            // reset
+            $totalTime = 0;
+            $totalProgress = 0;
         }
         return $data;
     }
